@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PneumaAssistant - Lung Cancer Support</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>PneumaAssist</h1>
+            <p>Your AI companion for lung cancer information and support.</p>
+            <p class="disclaimer">
+                <strong>Disclaimer:</strong> PneumaAssistant provides general information and support. It is NOT a substitute for professional medical advice, diagnosis, or treatment. Always consult your doctor or a qualified healthcare provider with any questions you may have regarding a medical condition.
+            </p>
+        </header>
+
+        <div class="chat-interface">
+            <div id="chat-box">
+                <!-- Chat messages will appear here -->
+                <div class="message assistant-message">
+                    <p>Welcome! How can I help you today? Please select your role (Patient or Doctor) below.</p>
+                </div>
+            </div>
+
+            <form id="chat-form">
+                <div class="mode-selector">
+                    <label>Select Role:</label>
+                    <input type="radio" id="mode-patient" name="mode" value="patient" checked>
+                    <label for="mode-patient">Patient </label>
+                    <input type="radio" id="mode-doctor" name="mode" value="doctor">
+                    <label for="mode-doctor">Doctor </label>
+                </div>
+                <div class="input-area">
+                    <textarea id="user-query" placeholder="Ask your question about lung cancer here..." rows="3" required></textarea>
+                    <button type="submit" id="send-button">Send</button>
+                </div>
+                 <div id="loading-indicator" style="display: none;">Thinking...</div>
+                 <div id="error-message" class="error-text" style="display: none;"></div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const chatForm = document.getElementById('chat-form');
+        const userQueryInput = document.getElementById('user-query');
+        const chatBox = document.getElementById('chat-box');
+        const loadingIndicator = document.getElementById('loading-indicator');
+        const errorMessageDiv = document.getElementById('error-message');
+        const sendButton = document.getElementById('send-button');
+
+        chatForm.addEventListener('submit', async (e) => {
+            e.preventDefault(); // Prevent default page reload
+
+            const userQuery = userQueryInput.value.trim();
+            const selectedMode = document.querySelector('input[name="mode"]:checked').value;
+
+            if (!userQuery) return; // Don't send empty messages
+
+            // Disable input and button, show loading
+            userQueryInput.disabled = true;
+            sendButton.disabled = true;
+            loadingIndicator.style.display = 'block';
+            errorMessageDiv.style.display = 'none'; // Hide previous errors
+
+            // Display user message immediately
+            appendMessage('user', userQuery);
+            userQueryInput.value = ''; // Clear input field
+
+            try {
+                const response = await fetch('/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ query: userQuery, mode: selectedMode }),
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    // Handle HTTP errors (like 400, 500)
+                    throw new Error(data.error || `Server error: ${response.status}`);
+                }
+
+                // Display assistant response
+                appendMessage('assistant', data.response);
+
+            } catch (error) {
+                console.error("Chat Error:", error);
+                errorMessageDiv.textContent = `Error: ${error.message}. Please try again.`;
+                errorMessageDiv.style.display = 'block';
+                // Optionally display error in chat box as well
+                // appendMessage('assistant', `Sorry, an error occurred: ${error.message}`);
+            } finally {
+                // Re-enable input and button, hide loading
+                userQueryInput.disabled = false;
+                sendButton.disabled = false;
+                loadingIndicator.style.display = 'none';
+                userQueryInput.focus(); // Set focus back to input
+            }
+        });
+
+        function appendMessage(sender, text) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message', `${sender}-message`);
+
+            const paragraph = document.createElement('p');
+            // Basic sanitization - replace potential HTML tags with encoded equivalents
+            // For more robust sanitization, consider a library like DOMPurify if handling complex user input
+            paragraph.textContent = text; // Use textContent to prevent XSS
+
+            messageDiv.appendChild(paragraph);
+            chatBox.appendChild(messageDiv);
+
+            // Scroll to the bottom
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        // Initial focus on the input field
+        userQueryInput.focus();
+
+    </script>
+</body>
+</html>
