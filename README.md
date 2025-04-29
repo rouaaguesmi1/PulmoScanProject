@@ -1,2 +1,0 @@
-# PulmoScanProject
-Data Science Project 
