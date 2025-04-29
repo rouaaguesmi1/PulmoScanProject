@@ -1,6 +1,6 @@
 # PneumaTect: Detection and Classification of Pulmonary Nodules
 
-![Logo](https://upload.wikimedia.org/wikipedia/commons/f/f1/Esprit_Logo.png)
+![Logo](https://upload.wikimedia.org/wikipedia/commons/f/ff/Logo_ESPRIT_Ariana.jpg)
 > Developed by **NeuralMasters - 4DS3 Team** | ESPRIT University  
 > Academic Year: 2024–2025  
 > Supervisors: HASNI Fares, ZOUARI Sarra  
