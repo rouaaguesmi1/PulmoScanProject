@@ -1,9 +1,0 @@
-# ## 7. Final Notes and Limitations
-#
-# *   **Simplifications:** This notebook uses a 3D U-Net for heatmap prediction, simplifying the paper's 3D Faster R-CNN with MSA blocks. The coordinate conversion from heatmap peaks back to world coordinates requires careful implementation (linking predictions back to the original scan and patch location), which is simplified here.
-# *   **Preprocessing:** Generating patches and preprocessing LUNA16 is computationally intensive and time-consuming. Consider preprocessing and saving the results offline for faster iteration.
-# *   **Lung Masking:** The provided `create_lung_mask` is basic. Using pre-computed masks from LUNA16 (if available) or more advanced segmentation methods is recommended.
-# *   **Training:** Only a few epochs were run for demonstration. Proper training requires significantly more epochs and potentially hyperparameter tuning.
-# *   **Candidate Output:** The final candidate list currently uses coordinates relative to the patch. A full implementation needs to convert these to absolute world coordinates (X, Y, Z) as required. Radius estimation is also simplified.
-# *   **Evaluation:** True evaluation requires matching detected candidates against the ground truth `annotations.csv` using metrics like FROC or CPM, which is complex and not implemented here.
-# *   **Memory:** 3D operations are memory-heavy. Adjust `BATCH_SIZE` and `init_features` based on available GPU memory.
