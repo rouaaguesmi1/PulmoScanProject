@@ -1,6 +1,0 @@
-Data Loading & Verification
-Preprocessing: Applied resampling, lung segmentation, and normalization, saving intermediate results.
-Dataset Preparation: Created PyTorch datasets by extracting patches around annotated nodules (positive) and non-nodules (negative).
-Model Training: Trained a simple 3D CNN using binary cross-entropy loss.
-Evaluation: Assessed model performance on validation patches using accuracy, AUC, sensitivity, and specificity.
-Visualization: Showed examples of model predictions on CT slices.
