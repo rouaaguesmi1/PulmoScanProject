@@ -41,7 +41,6 @@ Pulmonary nodules may indicate lung cancer—one of the deadliest diseases globa
 | **Data Science Bowl 2017**              | Cancer Prediction from Nodule Detection     | Kaggle       |
 | **Chest CT-Scan Dataset**              | Lung Cancer Subtype Classification          | Kaggle       |
 | **OSIC Pulmonary Fibrosis Progression**| Lung Function Decline Prediction            | Kaggle       |
-| **RSNA STR Pulmonary Embolism**        | Embolism Detection in 3D CT Scans           | Kaggle       |
 | **Lung Cancer Prediction**             | Risk Prediction (Structured Data)           | Kaggle       |
 | **Lung Cancer Mortality Dataset**      | Survival Prediction                         | Kaggle       |
 
@@ -70,7 +69,6 @@ User → UI Interface → PneumaTect API → AI Inference Engine ↳ Detection M
 | Lung Cancer Detection         | Patient-Level 3D CNN        | DSB 2017       | Whole-volume scan; Malignancy classifier      |
 | Subtype Classification        | MobileNetV2, ResNet50       | Chest CT-Scan  | Transfer learning; Early stopping, fine-tune  |
 | Lung Function Decline        | Regression CNN+Metadata     | OSIC           | Predict slope in FVC progression              |
-| Embolism Detection            | Volumetric CNN              | RSNA STR       | PE localization with patient heatmaps         |
 
 ---
 
