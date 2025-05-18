@@ -1,61 +1,162 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# PneumaTect Laravel Platform
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+> 🧩 Web Platform Component for the PneumaTect Project  
+> 🔗 Built using Laravel + Jetstream + Blade + Falcon Admin Template  
+> 🧠 Purpose: UI & API bridge for AI-based lung cancer diagnostic services
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 🚀 Overview
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+This repository hosts the **Laravel web platform** for **PneumaTect**, an AI-powered system for detecting and classifying pulmonary nodules. The Laravel frontend interfaces with the AI inference backend via RESTful APIs and provides a clean UI for clinicians, researchers, and healthcare staff.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## 🔧 Features
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- Jetstream authentication with optional team support
+- Modular admin panel based on Falcon Bootstrap v2.8.2
+- Dashboard with dynamic charts, logs, and scan history
+- Upload and visualize DICOM/CT images
+- Trigger AI inference via Python-based API
+- View diagnostic results, reports, and PDF exports
+- Role-based access control and audit logging
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+---
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 🛠️ Tech Stack
 
-## Laravel Sponsors
+| Layer         | Tech Used                     |
+|---------------|-------------------------------|
+| Backend       | Laravel 11 (PHP 8.3+)         |
+| Frontend      | Blade Templates, TailwindCSS  |
+| Auth & UI     | Jetstream + Livewire          |
+| Admin UI      | Falcon Bootstrap v2.8.2       |
+| Assets        | Gulp, Laravel Mix             |
+| API Layer     | Axios (HTTP client)           |
+| Integration   | Python Flask FastAPI backend  |
+| Database      | MySQL                         |
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+---
 
-### Premium Partners
+## 📋 Prerequisites
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development/)**
-- **[Active Logic](https://activelogic.com)**
+Before you begin, ensure you have the following installed:
 
-## Contributing
+- PHP 8.3+
+- Composer
+- Node.js and npm
+- MySQL (or another compatible database configured in Laravel)
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+---
 
-## Code of Conduct
+## 🧪 Development Setup
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Follow these steps to get your development environment set up:
 
-## Security Vulnerabilities
+1.  **Clone the repository:**
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
 
-## License
+2.  **Install PHP dependencies:**
+    ```bash
+    composer install
+    ```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+3.  **Install Node dependencies and build assets:**
+    ```bash
+    npm install && npm run dev
+    ```
+
+4.  **Configure your environment:**
+    Copy the example environment file and generate an application key.
+    ```bash
+    cp .env.example .env
+    php artisan key:generate
+    ```
+    Then, edit the `.env` file to set your database credentials, API endpoint, and other necessary configurations.
+
+5.  **Run database migrations and seeders:**
+    ```bash
+    php artisan migrate --seed
+    ```
+
+6.  **Serve the application:**
+    ```bash
+    php artisan serve
+    ```
+    The application should now be running on `http://localhost:8000` (or your configured port).
+
+---
+
+## 🔗 API Integration
+
+All predictions and scan analysis are delegated to a separate Python AI Inference API. This Laravel platform sends HTTP requests to this API and visualizes the results.
+
+### Example Flow
+
+1.  User uploads a CT scan through the Laravel UI.
+2.  Laravel backend sends a POST request to the `/predict/scan` endpoint of the Python AI Inference API.
+3.  The AI API processes the scan and returns classification results, heatmap URLs, or other relevant diagnostic data.
+4.  The Laravel UI renders these predictions, reports, and diagnostic overlays for the user.
+
+### Configuration
+
+Configure the necessary API endpoints and keys in your `.env` file
+
+
+📁 Folder Structure
+Here's an overview of the key directories in the project:
+
+├── app/
+│   ├── Http/Controllers/   # Application controllers
+│   ├── Models/             # Eloquent models
+│   └── Services/           # Services, including API clients
+├── config/                 # Application configuration files
+├── public/
+│   └── assets/             # Compiled assets, Falcon template assets
+├── resources/
+│   ├── css/                # CSS source files
+│   ├── js/                 # JavaScript source files
+│   ├── views/              # Blade templates
+│   └── components/         # Blade components
+├── routes/
+│   └── web.php             # Web routes
+├── .env                    # Environment configuration (local)
+├── composer.json           # PHP dependencies
+└── package.json            # Node.js dependencies
+
+
+---
+
+## ✨ Developer Credits
+
+👑 **Lead Developers**
+
+| Name                               | Role                                                                                               |
+|------------------------------------|----------------------------------------------------------------------------------------------------|
+| Mohamed Amine Ghorbali (aka Aethelios) | Project Lead – Platform Engineering|
+| Rouaa Guesmi                       | Full Stack Developer – Data Scientist|
+
+*Your relentless effort, precision, and teamwork were the backbone of this rapid and clean platform deployment. Bravo 👏*
+
+---
+
+## 📜 License
+
+This Laravel platform is part of the PneumaTect academic project at ESPRIT University.
+It is licensed under the **MIT License** for non-commercial academic use. Please see the `LICENSE` file for more details.
+
+---
+
+## 📬 Contact & Contribution
+
+We welcome contributions to improve the PneumaTect platform or adapt it for other medical use cases!
+
+-   **Report issues or suggest features:** Use the GitHub Issues tab.
+-   **Contribute code:** Fork the repository and submit a Pull Request.
+-   **General inquiries:** Reach out to the PneumaTect team at `contact@pneumatect.ai`.
+-   **Repository:** [https://github.com/rouaaguesmi1/PulmoScanProject/](https://github.com/rouaaguesmi1/PulmoScanProject/)
+
+---
+
+🫁 **PneumaTect: Breathing intelligence into lung health diagnostics.**
